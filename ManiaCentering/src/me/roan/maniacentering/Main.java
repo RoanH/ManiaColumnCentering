@@ -40,7 +40,7 @@ public class Main {
 	/**
 	 * The text field that displays the result
 	 */
-	private static final JTextField val = new JTextField("columnStart: ");
+	private static final JTextField val = new JTextField("ColumnStart: ");
 
 	/**
 	 * @param args - no valid command line options
@@ -133,7 +133,7 @@ public class Main {
 						}
 						calculate((int)height.getValue(), (int)width.getValue(), sum);	
 					}catch(Exception e){
-						val.setText("columnStart: ");
+						val.setText("ColumnStart: ");
 					}
 				}else if(rcal.isSelected()){
 					calculate((int)height.getValue(), (int)width.getValue(), (int)n1.getValue() * (int)n2.getValue());	
@@ -169,7 +169,7 @@ public class Main {
 	 */
 	private static final void calculate(double screenHeight, double screenWidth, double sum){
 		int value = (int) (((480.0D / (screenHeight / screenWidth)) / 2.0D) - (sum / 2.0D));
-		val.setText("columnStart: " + value);
+		val.setText("ColumnStart: " + value);
 	}
 	
 	/**
