@@ -170,7 +170,7 @@ public class Main {
 		private final Runnable action;
 		
 		/**
-		 * Contructs a new listener
+		 * Constructs a new listener
 		 * @param action The update action
 		 */
 		private Listener(Runnable action){
