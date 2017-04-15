@@ -1,11 +1,8 @@
 package me.roan.maniacentering;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +18,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -184,14 +179,7 @@ public class Main {
 		rsum.addActionListener(l);
 		values.addKeyListener(l);
 		
-		Icon ico = null;
-		try {
-			ico = new Ico();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		JOptionPane.showOptionDialog(null, content, "Mania column start calculator", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, ico, new String[]{"Exit"}, 0);
+		JOptionPane.showOptionDialog(null, content, "osu!mania ColumnStart calculator", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"Exit"}, 0);
 	}
 	
 	/**
@@ -295,40 +283,6 @@ public class Main {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			action.run();
-		}
-	}
-	
-	/**
-	 * Program icon
-	 * @author Roan
-	 */
-	private static final class Ico implements Icon{
-		/**
-		 * Icon image
-		 */
-		private static Image ico;
-		
-		/**
-		 * Loads the icon
-		 * @throws IOException When an IO Exception occurs
-		 */
-		private Ico() throws IOException{
-			ico = ImageIO.read(ClassLoader.getSystemResource("ManiaCentering_logo.png"));
-		}
-
-		@Override
-		public void paintIcon(Component c, Graphics g, int x, int y) {
-			g.drawImage(ico, 0, 0, 80, 80, 0, 0, 1024, 1024, c);
-		}
-
-		@Override
-		public int getIconWidth() {
-			return 80;
-		}
-
-		@Override
-		public int getIconHeight() {
-			return 80;
 		}
 	}
 }
