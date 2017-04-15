@@ -6,7 +6,7 @@ This sum can either be entered as the sum itself, a list of widths or as the pro
 osu! forum post: [post](https://osu.ppy.sh/forum/t/581972)
 
 # GUI
-![GUI](http://i.imgur.com/hWVRhI9.png)
+![GUI](http://i.imgur.com/CgARGrP.png)
 
 ## History
 Project development started: 14th of April, 2017.
