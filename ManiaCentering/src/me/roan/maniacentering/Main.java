@@ -121,7 +121,7 @@ public class Main {
 				if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
 					try {
 						parse(chooser.getSelectedFile(), (int)height.getValue(), (int)width.getValue());
-						JOptionPane.showMessageDialog(null, "ColumnStart values succesfully added!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ColumnStart values succesfully added!", "Mania Centering", JOptionPane.INFORMATION_MESSAGE);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(null, "An error occured!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
