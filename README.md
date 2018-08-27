@@ -1,5 +1,5 @@
 # Mania Column Centering
-Simple program to center the column in map formatted in the osu!mania format.
+Simple program to center the columns in maps formatted in the osu!mania format.
 The column width is the sum of all the widths of the individual columns.
 This sum can either be entered as the sum itself, a list of widths or as the product of two values.
 
