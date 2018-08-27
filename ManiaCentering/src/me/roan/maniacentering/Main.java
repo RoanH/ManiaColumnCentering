@@ -257,6 +257,9 @@ public class Main {
 		val.setEditable(false);
 		val.setBorder(null);
 		
+		JPanel direct = new JPanel(new BorderLayout());
+		
+		
 		JPanel end = new JPanel(new BorderLayout());
 		content.add(end, BorderLayout.PAGE_END);
 		end.add(pval, BorderLayout.PAGE_START);
@@ -333,7 +336,8 @@ public class Main {
 	private static final String checkVersion(){
 		try{ 			
 			HttpURLConnection con = (HttpURLConnection) new URL("https://api.github.com/repos/RoanH/ManiaColumnCentering/tags").openConnection(); 			
-			con.setRequestMethod("GET"); 		
+			con.setRequestMethod("GET");
+			con.addRequestProperty("Accept", "application/vnd.github.v3+json");
 			con.setConnectTimeout(10000); 					   
 			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream())); 	
 			String line = reader.readLine(); 		
