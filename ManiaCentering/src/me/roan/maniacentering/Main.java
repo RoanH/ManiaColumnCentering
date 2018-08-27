@@ -1,6 +1,7 @@
 package me.roan.maniacentering;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -8,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -29,6 +35,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -135,16 +142,8 @@ public class Main {
 		sum.add(pcal);
 		sum.add(file);
 		
-		//result
-		JPanel pval = new JPanel(new BorderLayout());
-		pval.setBorder(BorderFactory.createTitledBorder("Result"));
-		pval.add(val);
-		val.setEditable(false);
-		val.setBorder(null);
-		
 		content.add(dim, BorderLayout.PAGE_START);
 		content.add(sum, BorderLayout.CENTER);
-		content.add(pval, BorderLayout.PAGE_END);
 		
 		Listener l = new Listener(new Runnable(){
 
@@ -178,6 +177,90 @@ public class Main {
 		rcal.addActionListener(l);
 		rsum.addActionListener(l);
 		values.addKeyListener(l);
+		
+		JPanel info = new JPanel(new GridLayout(2, 1, 0, 2));
+		JLabel ver = new JLabel("<html><center><i>Version: v1.2, latest version: <font color=gray>loading</font></i></center></html>", SwingConstants.CENTER);
+		info.add(ver);
+		new Thread(()->{
+			String version = checkVersion();//XXX the version number 
+			ver.setText("<html><center><i>Version: v1.2, latest version: " + (version == null ? "unknown :(" : version) + "</i></center></html>");
+		}, "Version Checker").start();
+		JPanel links = new JPanel(new GridLayout(1, 2, -2, 0));
+		JLabel forum = new JLabel("<html><font color=blue><u>Forums</u></font> -</html>", SwingConstants.RIGHT);
+		JLabel git = new JLabel("<html>- <font color=blue><u>GitHub</u></font></html>", SwingConstants.LEFT);
+		links.add(forum);
+		links.add(git);
+		forum.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(Desktop.isDesktopSupported()){
+					try {
+						Desktop.getDesktop().browse(new URL("https://osu.ppy.sh/community/forums/topics/581972").toURI());
+					} catch (IOException | URISyntaxException e1) {
+						//pity
+					}
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+		});
+		git.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(Desktop.isDesktopSupported()){
+					try {
+						Desktop.getDesktop().browse(new URL("https://github.com/RoanH/ManiaColumnCentering").toURI());
+					} catch (IOException | URISyntaxException e1) {
+						//pity
+					}
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+		});
+		info.add(links);
+		
+		//result
+		JPanel pval = new JPanel(new BorderLayout());
+		pval.setBorder(BorderFactory.createTitledBorder("Result"));
+		pval.add(val);
+		val.setEditable(false);
+		val.setBorder(null);
+		
+		JPanel end = new JPanel(new BorderLayout());
+		content.add(end, BorderLayout.PAGE_END);
+		end.add(pval, BorderLayout.PAGE_START);
+		end.add(info, BorderLayout.PAGE_END);
 		
 		JOptionPane.showOptionDialog(null, content, "osu!mania ColumnStart calculator", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"Exit"}, 0);
 	}
@@ -240,6 +323,44 @@ public class Main {
 		
 		tmp.delete();
 		tmp.deleteOnExit();
+	}
+	
+	/**
+	 * Checks the KeysPerSecond version to see
+	 * if we are running the latest version
+	 * @return The latest version
+	 */
+	private static final String checkVersion(){
+		try{ 			
+			HttpURLConnection con = (HttpURLConnection) new URL("https://api.github.com/repos/RoanH/ManiaColumnCentering/tags").openConnection(); 			
+			con.setRequestMethod("GET"); 		
+			con.setConnectTimeout(10000); 					   
+			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream())); 	
+			String line = reader.readLine(); 		
+			reader.close(); 	
+			String[] versions = line.split("\"name\":\"v");
+			int max_main = 1;
+			int max_sub = 0;
+			String[] tmp;
+			for(int i = 1; i < versions.length; i++){
+				tmp = versions[i].split("\",\"")[0].split("\\.");
+				if(Integer.parseInt(tmp[0]) > max_main){
+					max_main = Integer.parseInt(tmp[0]);
+					max_sub = Integer.parseInt(tmp[1]);
+				}else if(Integer.parseInt(tmp[0]) < max_main){
+					continue;
+				}else{
+					if(Integer.parseInt(tmp[1]) > max_sub){
+						max_sub = Integer.parseInt(tmp[1]);
+					}
+				}
+			}
+			return "v" + max_main + "." + max_sub;
+		}catch(Exception e){ 	
+			return null;
+			//No Internet access or something else is wrong,
+			//No problem though since this isn't a critical function
+		}
 	}
 	
 	/**
