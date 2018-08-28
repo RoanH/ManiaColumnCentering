@@ -23,10 +23,15 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -79,7 +84,7 @@ public class Main {
 		dim.add(h);
 		
 		//sum
-		JPanel sum = new JPanel(new GridLayout(4, 1, 0, 2));
+		JPanel sum = new JPanel(new GridLayout(3, 1, 0, 2));
 		sum.setBorder(BorderFactory.createTitledBorder("Column sum"));
 		ButtonGroup group = new ButtonGroup();
 		JRadioButton rsum = new JRadioButton();
@@ -116,31 +121,9 @@ public class Main {
 		product.add(n2, BorderLayout.LINE_END);
 		pcal.add(product, BorderLayout.LINE_END);
 		
-		JButton file = new JButton("Directly apply to file");
-		file.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setFileFilter(new FileNameExtensionFilter("INI files", "ini"));
-				chooser.setMultiSelectionEnabled(false);
-				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-					try {
-						parse(chooser.getSelectedFile(), (int)height.getValue(), (int)width.getValue());
-						JOptionPane.showMessageDialog(null, "ColumnStart values succesfully added!", "Mania Centering", JOptionPane.INFORMATION_MESSAGE);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, "An error occured!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-		
 		sum.add(psum);
 		sum.add(pcol);
 		sum.add(pcal);
-		sum.add(file);
 		
 		content.add(dim, BorderLayout.PAGE_START);
 		content.add(sum, BorderLayout.CENTER);
@@ -257,12 +240,43 @@ public class Main {
 		val.setEditable(false);
 		val.setBorder(null);
 		
-		JPanel direct = new JPanel(new BorderLayout());
+		JComboBox<String> backup = new JComboBox<String>(new String[]{"Do not make a backup", "Comment out the old value", "Backup the entire skin.ini"});
+		backup.setSelectedIndex(1);
 		
+		JButton file = new JButton("Directly apply to file");
+		file.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("INI files", "ini"));
+				chooser.setMultiSelectionEnabled(false);
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+					try {
+						parse(chooser.getSelectedFile(), (int)height.getValue(), (int)width.getValue(), backup.getSelectedIndex() == 1, backup.getSelectedIndex() == 2);
+						JOptionPane.showMessageDialog(null, "ColumnStart values succesfully added!", "Mania Centering", JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "An error occured!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		
+		JPanel direct = new JPanel(new BorderLayout());
+		direct.setBorder(BorderFactory.createTitledBorder("Directly modify the skin.ini"));
+		JPanel pbackup = new JPanel();
+		pbackup.add(new JLabel("Backup: "), BorderLayout.LINE_START);
+		pbackup.add(backup);
+		direct.add(new JLabel("<html><center>This will read the ColumnWidth field from the skin.ini and<br>add the ColumnStart value for which the playfield is centered.</center></html>"), BorderLayout.PAGE_START);
+		direct.add(pbackup);
+		direct.add(file, BorderLayout.PAGE_END);
 		
 		JPanel end = new JPanel(new BorderLayout());
 		content.add(end, BorderLayout.PAGE_END);
 		end.add(pval, BorderLayout.PAGE_START);
+		end.add(direct, BorderLayout.CENTER);
 		end.add(info, BorderLayout.PAGE_END);
 		
 		JOptionPane.showOptionDialog(null, content, "osu!mania ColumnStart calculator", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"Exit"}, 0);
@@ -284,17 +298,29 @@ public class Main {
 	 * @param ini The file to modify
 	 * @param screenHeight The screen height
 	 * @param screenWidth The screen width
+	 * @param backupLine Whether or not to comment out the old value
+	 * @param backupFile Whether or not to create a backup file
 	 * @throws IOException When an IOException occurs
 	 */
-	private static final void parse(File ini, double screenHeight, double screenWidth) throws IOException{
-		File tmp = Files.createTempFile(null, null).toFile();
+	private static final void parse(File ini, double screenHeight, double screenWidth, boolean backupLine, boolean backupFile) throws IOException{
+		File tmp;
+		if(backupFile){
+			String name = DateTimeFormatter.ofPattern("dd.MM.yyyy-HH.mm.ss").withLocale(Locale.getDefault()).withZone(ZoneOffset.systemDefault()).format(Instant.now());
+			tmp = ini;
+			ini = Files.move(ini.toPath(), ini.toPath().resolveSibling("backup-" + name + ".ini")).toFile();
+		}else{
+			tmp = Files.createTempFile(null, null).toFile();
+		}
+		
 		PrintWriter out = new PrintWriter(new FileOutputStream(tmp));
 		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(ini)));
 		
 		String line;
 		while((line = in.readLine()) != null){
 			if(line.startsWith("ColumnStart:")){
-				out.println("//" + line);
+				if(backupLine){
+					out.println("//" + line);
+				}
 			}else if(line.startsWith("ColumnWidth:")){
 				try{
 					String[] vals = line.replaceAll("ColumnWidth:", "").replaceAll(" ", "").split(",");
@@ -309,8 +335,10 @@ public class Main {
 					JOptionPane.showMessageDialog(null, "An error occured!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
 					out.close();
 					in.close();
-					tmp.delete();
-					tmp.deleteOnExit();
+					if(!backupFile){
+						tmp.delete();
+						tmp.deleteOnExit();
+					}
 					return;
 				}
 			}else{
@@ -322,10 +350,12 @@ public class Main {
 		out.close();
 		in.close();
 		
-		Files.move(tmp.toPath(), ini.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		
-		tmp.delete();
-		tmp.deleteOnExit();
+		if(!backupFile){
+			Files.move(tmp.toPath(), ini.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
+			tmp.delete();
+			tmp.deleteOnExit();
+		}
 	}
 	
 	/**
