@@ -54,7 +54,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * screen
  * @author Roan
  */
-public class Main {
+public class Main{
 	/**
 	 * The text field that displays the result
 	 */
@@ -64,9 +64,9 @@ public class Main {
 	 * @param args - no valid command line options
 	 */
 	public static final void main(String[] args){
-		try {
+		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+		}catch(Exception e){
 		}
 		JPanel content = new JPanel(new BorderLayout());
 		//dimensions
@@ -82,7 +82,7 @@ public class Main {
 		h.add(height, BorderLayout.LINE_END);
 		dim.add(w);
 		dim.add(h);
-		
+
 		//sum
 		JPanel sum = new JPanel(new GridLayout(3, 1, 0, 2));
 		sum.setBorder(BorderFactory.createTitledBorder("Column sum"));
@@ -98,14 +98,14 @@ public class Main {
 		JSpinner s = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
 		psum.add(new JLabel("Sum: "), BorderLayout.CENTER);
 		psum.add(s, BorderLayout.LINE_END);
-		
+
 		JPanel pcol = new JPanel(new BorderLayout());
 		pcol.add(rcol, BorderLayout.LINE_START);
 		pcol.add(new JLabel("Widths: "), BorderLayout.CENTER);
 		JTextField values = new JTextField();
 		values.setPreferredSize(new Dimension(s.getPreferredSize().width, 0));
 		pcol.add(values, BorderLayout.LINE_END);
-		
+
 		JPanel pcal = new JPanel(new BorderLayout());
 		pcal.add(rcal, BorderLayout.LINE_START);
 		pcal.add(new JLabel("Product: "));
@@ -115,25 +115,25 @@ public class Main {
 		product.add(n1, BorderLayout.LINE_START);
 		JLabel x = new JLabel(" x ");
 		product.add(x, BorderLayout.CENTER);
-		int maxw = (int) ((n1.getPreferredSize().getWidth() - x.getPreferredSize().getWidth()) / 2.0D);
+		int maxw = (int)((n1.getPreferredSize().getWidth() - x.getPreferredSize().getWidth()) / 2.0D);
 		n1.setPreferredSize(new Dimension(maxw + 1, 0));
 		n2.setPreferredSize(new Dimension(maxw, 0));
 		product.add(n2, BorderLayout.LINE_END);
 		pcal.add(product, BorderLayout.LINE_END);
-		
+
 		sum.add(psum);
 		sum.add(pcol);
 		sum.add(pcal);
-		
+
 		content.add(dim, BorderLayout.PAGE_START);
 		content.add(sum, BorderLayout.CENTER);
-		
+
 		Listener l = new Listener(new Runnable(){
 
 			@Override
-			public void run() {
+			public void run(){
 				if(rsum.isSelected()){
-					calculate((int)height.getValue(), (int)width.getValue(), (int)s.getValue());	
+					calculate((int)height.getValue(), (int)width.getValue(), (int)s.getValue());
 				}else if(rcol.isSelected()){
 					try{
 						String[] vals = values.getText().replaceAll(" ", "").split(",");
@@ -141,16 +141,16 @@ public class Main {
 						for(String val : vals){
 							sum += Integer.parseInt(val);
 						}
-						calculate((int)height.getValue(), (int)width.getValue(), sum);	
+						calculate((int)height.getValue(), (int)width.getValue(), sum);
 					}catch(Exception e){
 						val.setText("ColumnStart: ");
 					}
 				}else if(rcal.isSelected()){
-					calculate((int)height.getValue(), (int)width.getValue(), (int)n1.getValue() * (int)n2.getValue());	
+					calculate((int)height.getValue(), (int)width.getValue(), (int)n1.getValue() * (int)n2.getValue());
 				}
 			}
 		});
-		
+
 		width.addChangeListener(l);
 		height.addChangeListener(l);
 		n1.addChangeListener(l);
@@ -160,7 +160,7 @@ public class Main {
 		rcal.addActionListener(l);
 		rsum.addActionListener(l);
 		values.addKeyListener(l);
-		
+
 		JPanel info = new JPanel(new GridLayout(2, 1, 0, 2));
 		JLabel ver = new JLabel("<html><center><i>Version: v1.2, latest version: <font color=gray>loading</font></i></center></html>", SwingConstants.CENTER);
 		info.add(ver);
@@ -176,94 +176,94 @@ public class Main {
 		forum.addMouseListener(new MouseListener(){
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e){
 				if(Desktop.isDesktopSupported()){
-					try {
+					try{
 						Desktop.getDesktop().browse(new URL("https://osu.ppy.sh/community/forums/topics/581972").toURI());
-					} catch (IOException | URISyntaxException e1) {
+					}catch(IOException | URISyntaxException e1){
 						//pity
 					}
 				}
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e){
 			}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void mouseReleased(MouseEvent e){
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
+			public void mouseEntered(MouseEvent e){
 			}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
+			public void mouseExited(MouseEvent e){
 			}
 		});
 		git.addMouseListener(new MouseListener(){
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e){
 				if(Desktop.isDesktopSupported()){
-					try {
+					try{
 						Desktop.getDesktop().browse(new URL("https://github.com/RoanH/ManiaColumnCentering").toURI());
-					} catch (IOException | URISyntaxException e1) {
+					}catch(IOException | URISyntaxException e1){
 						//pity
 					}
 				}
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e){
 			}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void mouseReleased(MouseEvent e){
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
+			public void mouseEntered(MouseEvent e){
 			}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
+			public void mouseExited(MouseEvent e){
 			}
 		});
 		info.add(links);
-		
+
 		//result
 		JPanel pval = new JPanel(new BorderLayout());
 		pval.setBorder(BorderFactory.createTitledBorder("Result"));
 		pval.add(val);
 		val.setEditable(false);
 		val.setBorder(null);
-		
+
 		JComboBox<String> backup = new JComboBox<String>(new String[]{"Do not make a backup", "Comment out the old value", "Backup the entire skin.ini"});
 		backup.setSelectedIndex(1);
-		
+
 		JButton file = new JButton("Directly apply to file");
 		file.addActionListener(new ActionListener(){
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileFilter(new FileNameExtensionFilter("INI files", "ini"));
 				chooser.setMultiSelectionEnabled(false);
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-					try {
+					try{
 						parse(chooser.getSelectedFile(), (int)height.getValue(), (int)width.getValue(), backup.getSelectedIndex() == 1, backup.getSelectedIndex() == 2);
 						JOptionPane.showMessageDialog(null, "ColumnStart values succesfully added!", "Mania Centering", JOptionPane.INFORMATION_MESSAGE);
-					} catch (IOException e1) {
+					}catch(IOException e1){
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(null, "An error occured!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
-		
+
 		JPanel direct = new JPanel(new BorderLayout());
 		direct.setBorder(BorderFactory.createTitledBorder("Directly modify the skin.ini"));
 		JPanel pbackup = new JPanel();
@@ -272,16 +272,16 @@ public class Main {
 		direct.add(new JLabel("<html><center>This will read the ColumnWidth field from the skin.ini and<br>add the ColumnStart value for which the playfield is centered.</center></html>"), BorderLayout.PAGE_START);
 		direct.add(pbackup);
 		direct.add(file, BorderLayout.PAGE_END);
-		
+
 		JPanel end = new JPanel(new BorderLayout());
 		content.add(end, BorderLayout.PAGE_END);
 		end.add(pval, BorderLayout.PAGE_START);
 		end.add(direct, BorderLayout.CENTER);
 		end.add(info, BorderLayout.PAGE_END);
-		
+
 		JOptionPane.showOptionDialog(null, content, "osu!mania ColumnStart calculator", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"Exit"}, 0);
 	}
-	
+
 	/**
 	 * Calculates the new column start value
 	 * @param screenHeight The screen height
@@ -289,10 +289,10 @@ public class Main {
 	 * @param sum The sum of all column widths
 	 */
 	private static final void calculate(double screenHeight, double screenWidth, double sum){
-		int value = (int) (((480.0D / (screenHeight / screenWidth)) / 2.0D) - (sum / 2.0D));
+		int value = (int)(((480.0D / (screenHeight / screenWidth)) / 2.0D) - (sum / 2.0D));
 		val.setText("ColumnStart: " + value);
 	}
-	
+
 	/**
 	 * Parses a file and applies the column start value
 	 * @param ini The file to modify
@@ -311,10 +311,10 @@ public class Main {
 		}else{
 			tmp = Files.createTempFile(null, null).toFile();
 		}
-		
+
 		PrintWriter out = new PrintWriter(new FileOutputStream(tmp));
 		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(ini)));
-		
+
 		String line;
 		while((line = in.readLine()) != null){
 			if(line.startsWith("ColumnStart:")){
@@ -329,7 +329,7 @@ public class Main {
 						sum += Integer.parseInt(val);
 					}
 					out.println(line);
-					out.println("ColumnStart: " + (int) (((480.0D / (screenHeight / screenWidth)) / 2.0D) - (sum / 2.0D)));
+					out.println("ColumnStart: " + (int)(((480.0D / (screenHeight / screenWidth)) / 2.0D) - (sum / 2.0D)));
 				}catch(Exception e){
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "An error occured!", "Mania Centering", JOptionPane.ERROR_MESSAGE);
@@ -345,33 +345,33 @@ public class Main {
 				out.println(line);
 			}
 		}
-		
+
 		out.flush();
 		out.close();
 		in.close();
-		
+
 		if(!backupFile){
 			Files.move(tmp.toPath(), ini.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			
+
 			tmp.delete();
 			tmp.deleteOnExit();
 		}
 	}
-	
+
 	/**
 	 * Checks the KeysPerSecond version to see
 	 * if we are running the latest version
 	 * @return The latest version
 	 */
 	private static final String checkVersion(){
-		try{ 			
-			HttpURLConnection con = (HttpURLConnection) new URL("https://api.github.com/repos/RoanH/ManiaColumnCentering/tags").openConnection(); 			
+		try{
+			HttpURLConnection con = (HttpURLConnection)new URL("https://api.github.com/repos/RoanH/ManiaColumnCentering/tags").openConnection();
 			con.setRequestMethod("GET");
 			con.addRequestProperty("Accept", "application/vnd.github.v3+json");
-			con.setConnectTimeout(10000); 					   
-			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream())); 	
-			String line = reader.readLine(); 		
-			reader.close(); 	
+			con.setConnectTimeout(10000);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String line = reader.readLine();
+			reader.close();
 			String[] versions = line.split("\"name\":\"v");
 			int max_main = 1;
 			int max_sub = 0;
@@ -390,13 +390,13 @@ public class Main {
 				}
 			}
 			return "v" + max_main + "." + max_sub;
-		}catch(Exception e){ 	
+		}catch(Exception e){
 			return null;
 			//No Internet access or something else is wrong,
 			//No problem though since this isn't a critical function
 		}
 	}
-	
+
 	/**
 	 * Change listener
 	 * @author Roan
@@ -406,7 +406,7 @@ public class Main {
 		 * The update action
 		 */
 		private final Runnable action;
-		
+
 		/**
 		 * Constructs a new listener
 		 * @param action The update action
@@ -416,27 +416,27 @@ public class Main {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e){
 			action.run();
 		}
 
 		@Override
-		public void stateChanged(ChangeEvent e) {
+		public void stateChanged(ChangeEvent e){
 			action.run();
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(KeyEvent e){
 			action.run();
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
+		public void keyPressed(KeyEvent e){
 			action.run();
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void keyReleased(KeyEvent e){
 			action.run();
 		}
 	}
