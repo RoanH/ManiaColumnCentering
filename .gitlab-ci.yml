@@ -1,4 +1,7 @@
+image: openjdk:8
+
 variables:
+   GIT_STRATEGY: clone
    SSL_SELF_SIGNED: "true"
    PROJECTNAME: "ManiaCentering"
 
@@ -39,7 +42,6 @@ verify:
   stage: javadoc
 
 javadoc:
-  image: openjdk:8
   script:
     - cd ${PROJECTNAME}
     - find src -name "*.java" > sources.txt
@@ -47,7 +49,6 @@ javadoc:
   stage: javadoc
 
 compile:
-  image: openjdk:8
   script:
     - chmod -R 777 ./*
     - cd ${PROJECTNAME}
