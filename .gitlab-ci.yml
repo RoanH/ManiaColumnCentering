@@ -1,9 +1,9 @@
 image: openjdk:8
 
 variables:
-   GIT_STRATEGY: clone
-   SSL_SELF_SIGNED: "true"
-   PROJECTNAME: "ManiaCentering"
+  GIT_STRATEGY: clone
+  SSL_SELF_SIGNED: "true"
+  PROJECTNAME: "ManiaCentering"
 
 before_script:
   - java -version
@@ -12,7 +12,7 @@ stages:
   - compile
   - status
   - javadoc
-  
+
 pending:
   allow_failure: true
   script:
