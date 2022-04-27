@@ -1,7 +1,8 @@
 image: openjdk:8
 
 variables:
-  PROJECTNAME: "ManiaCentering"
+  PROJECTNAME: "ManiaColumnCentering"
+  PROJECT: "ManiaCentering"
 
 before_script:
   - java -version
@@ -36,7 +37,7 @@ verify:
 
 javadoc:
   script:
-    - cd ${PROJECTNAME}
+    - cd ${PROJECT}
     - find src -name "*.java" > sources.txt
     - javadoc -private @sources.txt
   stage: javadoc
@@ -44,7 +45,7 @@ javadoc:
 compile:
   script:
     - chmod -R 777 ./*
-    - cd ${PROJECTNAME}
+    - cd ${PROJECT}
     - ls -l
     - rm -rf ./bin
     - mkdir bin
