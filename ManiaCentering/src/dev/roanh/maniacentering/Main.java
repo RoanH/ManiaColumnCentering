@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -26,7 +27,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,9 +37,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import dev.roanh.util.ClickableLink;
+import dev.roanh.util.Dialog;
+import dev.roanh.util.FileSelector;
+import dev.roanh.util.FileSelector.FileExtension;
 import dev.roanh.util.Util;
 
 /**
@@ -51,6 +53,10 @@ import dev.roanh.util.Util;
  * @author Roan
  */
 public class Main{
+	/**
+	 * File extension for <code>.ini</code> files.
+	 */
+	private static final FileExtension INI_EXT = FileSelector.registerFileExtension("INI files", "ini");
 	/**
 	 * The text field that displays the result
 	 */
@@ -181,13 +187,10 @@ public class Main{
 
 			@Override
 			public void actionPerformed(ActionEvent e){
-				JFileChooser chooser = new JFileChooser();
-				chooser.setFileFilter(new FileNameExtensionFilter("INI files", "ini"));
-				chooser.setMultiSelectionEnabled(false);
-				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+				Path file = Dialog.showFileOpenDialog(INI_EXT);
+				if(file != null){
 					try{
-						parse(chooser.getSelectedFile(), (int)height.getValue(), (int)width.getValue(), backup.getSelectedIndex() == 1, backup.getSelectedIndex() == 2);
+						parse(file.toFile(), (int)height.getValue(), (int)width.getValue(), backup.getSelectedIndex() == 1, backup.getSelectedIndex() == 2);
 						JOptionPane.showMessageDialog(null, "ColumnStart values succesfully added!", "Mania Centering", JOptionPane.INFORMATION_MESSAGE);
 					}catch(IOException e1){
 						e1.printStackTrace();
