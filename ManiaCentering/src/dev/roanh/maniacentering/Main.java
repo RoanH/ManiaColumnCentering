@@ -1,4 +1,4 @@
-package me.roan.maniacentering;
+package dev.roanh.maniacentering;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;

@@ -42,7 +42,7 @@ dependencies{
 }
 
 application{
-	mainClassName = 'me.roan.maniacentering.Main'
+	mainClassName = 'dev.roanh.maniacentering.Main'
 }
 
 launch4j{
