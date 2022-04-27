@@ -13,7 +13,7 @@ This sum can either be entered as the sum itself, a list of widths or as the pro
 [Runnable Java Archive](https://github.com/RoanH/ManiaColumnCentering/releases/download/v1.2/ManiaColumnCentering-v1.2.jar)
 
 All releases: [releases](https://github.com/RoanH/ManiaColumnCentering/releases)    
-GitHub repository: [here](https://github.com/RoanH/ManiaColumnCentering)
+GitHub repository: [here](https://github.com/RoanH/ManiaColumnCentering)    
 Forum post: [post](https://osu.ppy.sh/community/forums/topics/581972)
 
 ## History
