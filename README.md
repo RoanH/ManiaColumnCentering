@@ -1,9 +1,9 @@
-# Mania Column Centering
+# Mania Column Centering [![](https://img.shields.io/github/release/RoanH/ManiaColumnCentering.svg)](https://github.com/RoanH/ManiaColumnCentering/releases) [![](https://img.shields.io/github/downloads/RoanH/ManiaColumnCentering/total.svg)](#downloads)
 Simple program to center the columns in maps formatted in the osu!mania format.
 The column width is the sum of all the widths of the individual columns.
 This sum can either be entered as the sum itself, a list of widths or as the product of two values.
 
-osu! forum post: [post](https://osu.ppy.sh/forum/t/581972)
+[Jump directly to downloads](#downloads)
 
 # GUI
 ![GUI](https://i.imgur.com/kQD5xwj.png)
@@ -14,6 +14,7 @@ osu! forum post: [post](https://osu.ppy.sh/forum/t/581972)
 
 All releases: [releases](https://github.com/RoanH/ManiaColumnCentering/releases)    
 GitHub repository: [here](https://github.com/RoanH/ManiaColumnCentering)
+Forum post: [post](https://osu.ppy.sh/community/forums/topics/581972)
 
 ## History
 Project development started: 14th of April, 2017.
