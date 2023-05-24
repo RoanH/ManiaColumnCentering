@@ -8,6 +8,7 @@ before_script:
   - java -version
   - cd ${PROJECT}
   - ls -l
+  - chmod -R 755 ./*
 
 stages:
   - compile
