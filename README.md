@@ -6,7 +6,7 @@ This sum can either be entered as the sum itself, a list of widths or as the pro
 [Jump directly to downloads](#downloads)
 
 # GUI
-![GUI](https://i.imgur.com/kQD5xwj.png)
+![GUI](https://media.roanh.dev/maniacolumncentering/gui.png)
 
 # Downloads
 [Windows executable](https://github.com/RoanH/ManiaColumnCentering/releases/download/v1.2/ManiaColumnCentering-v1.2.exe)    
