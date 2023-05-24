@@ -6,7 +6,7 @@ variables:
 
 before_script:
   - java -version
-  - cd ${PROJECTNAME}
+  - cd ${PROJECT}
   - ls -l
 
 stages:
